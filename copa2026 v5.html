@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Copa do Mundo 2026 · Lucas Prado</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap');
+  :root {
+    --bg:#080d13;--surface:#0f1520;--card:#131c28;--border:#1a2535;
+    --gold:#c9a227;--gold-dim:#6e5610;--green:#00a651;
+    --white:#eef2f7;--muted:#4e6070;--brazil:#009c3b;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--white);font-family:'Inter',sans-serif;min-height:100vh}
+
+  header{
+    background:linear-gradient(160deg,#080d13 0%,#0c1a2e 55%,#081a0e 100%);
+    border-bottom:1px solid var(--border);padding:20px 20px 14px;
+    text-align:center;position:sticky;top:0;z-index:100;
+  }
+  .eyebrow{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:4px}
+  header h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(32px,7vw,58px);letter-spacing:4px;color:var(--white);line-height:1}
+  header h1 span{color:var(--gold)}
+  .hsub{font-size:11px;color:var(--muted);margin-top:6px}
+  .brt-pill{display:inline-block;background:rgba(0,166,81,.15);border:1px solid var(--green);color:var(--green);font-size:10px;font-weight:700;padding:2px 10px;border-radius:20px;letter-spacing:1px;margin-top:8px}
+  .hosts{display:flex;justify-content:center;gap:10px;margin-top:8px;flex-wrap:wrap}
+  .htag{background:rgba(201,162,39,.1);border:1px solid var(--gold-dim);color:var(--gold);font-size:10px;font-weight:700;letter-spacing:1px;padding:3px 10px;border-radius:20px}
+
+  .statsbar{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;padding:10px 16px;background:var(--surface);border-bottom:1px solid var(--border)}
+  .snum{font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--green);letter-spacing:1px;line-height:1}
+  .slbl{font-size:9px;color:var(--white);letter-spacing:1px;text-transform:uppercase}
+
+  .controls{
+    padding:10px 14px;display:flex;gap:6px;flex-wrap:wrap;
+    justify-content:center;background:var(--surface);
+    border-bottom:1px solid var(--border);
+    position:sticky;top:108px;z-index:99;
+  }
+  .fbtn{background:var(--card);color:var(--muted);border:1px solid var(--border);padding:6px 13px;border-radius:20px;font-size:11px;font-weight:500;cursor:pointer;transition:all .15s;font-family:'Inter',sans-serif}
+  .fbtn:hover{color:var(--white);border-color:var(--muted)}
+  .fbtn.active{background:var(--gold);color:#080d13;border-color:var(--gold);font-weight:700}
+  .fbtn.brbtn.active{background:var(--brazil);border-color:var(--brazil);color:#fff}
+  .srch{position:relative}
+  .srch input{background:var(--card);border:1px solid var(--border);color:var(--white);padding:6px 10px 6px 28px;border-radius:20px;font-size:11px;font-family:'Inter',sans-serif;width:170px;outline:none;transition:border-color .15s}
+  .srch input:focus{border-color:var(--gold)}
+  .srch::before{content:'⌕';position:absolute;left:9px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:13px;pointer-events:none}
+
+  main{padding:16px 12px 60px;max-width:860px;margin:0 auto}
+
+  .phase-title{font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:3px;color:var(--gold);margin:28px 0 12px;display:flex;align-items:center;gap:10px}
+  .phase-title::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--gold-dim),transparent)}
+
+  .dblock{margin-bottom:4px}
+  .dhdr{display:flex;align-items:center;gap:10px;padding:6px 0 4px}
+  .dlbl{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);white-space:nowrap}
+  .dlbl strong{color:var(--white);font-size:12px}
+  .dline{flex:1;height:1px;background:var(--border)}
+
+  .mc{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:11px 13px;margin-bottom:5px;display:grid;grid-template-columns:62px 1fr auto 1fr 72px;align-items:center;gap:10px;transition:border-color .15s,transform .1s}
+  .mc:hover{border-color:var(--gold-dim);transform:translateY(-1px)}
+  .mc.br{border-color:#005c20;background:linear-gradient(135deg,#0b1d10,#131c28)}
+  .mc.final-card{border-color:var(--gold)!important}
+
+  .tcol{text-align:center}
+  .mtime{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:1px;color:var(--gold);line-height:1}
+  .mbrt{font-size:8px;color:var(--green);font-weight:700;letter-spacing:1px;margin-top:1px}
+  .mgrp{font-size:9px;color:var(--muted);letter-spacing:.5px;margin-top:1px}
+  .team{display:flex;flex-direction:column;gap:1px}
+  .th{text-align:right}.ta{text-align:left}
+  .tflag{font-size:18px;line-height:1}
+  .tname{font-size:13px;font-weight:600;color:var(--white);line-height:1.2}
+  .vs{text-align:center;font-family:'Bebas Neue',sans-serif;font-size:16px;color:var(--muted);letter-spacing:1px}
+  .vcol{text-align:right}
+  .gbadge{display:inline-block;background:rgba(201,162,39,.12);color:var(--gold);font-size:9px;font-weight:700;letter-spacing:.8px;padding:2px 6px;border-radius:3px;margin-bottom:2px}
+  .vcity{font-size:10px;color:var(--muted);text-align:right;line-height:1.3}
+  .bstar{color:var(--brazil);font-size:10px;margin-left:2px}
+
+  .mc.hidden,.dblock.hidden-all{display:none}
+
+  .nores{text-align:center;padding:50px 16px;color:var(--muted);font-size:13px;display:none}
+  .nores .ico{font-size:36px;margin-bottom:10px}
+
+  .scrolltop{position:fixed;bottom:20px;right:16px;background:var(--gold);color:#080d13;border:none;width:36px;height:36px;border-radius:50%;font-size:16px;cursor:pointer;display:none;align-items:center;justify-content:center;font-weight:700;z-index:200}
+  .scrolltop.show{display:flex}
+
+  /* Owner badge */
+  .owner-bar{background:linear-gradient(90deg,rgba(201,162,39,.08),rgba(0,166,81,.08));border-bottom:1px solid var(--border);padding:7px 16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+  .owner-name{font-size:11px;color:var(--muted);letter-spacing:.5px}
+  .owner-name strong{color:var(--gold);font-size:13px;font-weight:700;letter-spacing:1px}
+
+  .footnote{margin-top:24px;padding:12px 14px;background:var(--surface);border-radius:6px;border:1px solid var(--border);font-size:10px;color:var(--muted);line-height:1.7}
+  .footnote strong{color:var(--white)}
+
+  @media(max-width:560px){
+    .mc{grid-template-columns:50px 1fr auto 1fr 58px;gap:6px;padding:9px 10px}
+    .mtime{font-size:18px}.tname{font-size:11px}.tflag{font-size:15px}
+
+    header{padding:14px 12px 10px}
+    .hosts{display:none}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="eyebrow">⚽ Calendário Oficial · 104 Jogos</div>
+  <h1>COPA DO <span>MUNDO</span> 2026</h1>
+  <div class="hsub">11 Jun – 19 Jul · EUA · México · Canadá</div>
+  <div class="brt-pill">⏰ TODOS OS HORÁRIOS EM BRT (BRASÍLIA)</div>
+  <div class="hosts">
+    <span class="htag">🇺🇸 Estados Unidos</span>
+    <span class="htag">🇨🇦 Canadá</span>
+    <span class="htag">🇲🇽 México</span>
+  </div>
+</header>
+
+<div class="statsbar">
+  <div><div class="snum">104</div><div class="slbl">Jogos</div></div>
+  <div><div class="snum">48</div><div class="slbl">Seleções</div></div>
+  <div><div class="snum">16</div><div class="slbl">Estádios</div></div>
+  <div><div class="snum">39</div><div class="slbl">Dias</div></div>
+  <div><div class="snum">12</div><div class="slbl">Grupos</div></div>
+</div>
+
+
+<div class="owner-bar">
+  <div class="owner-name">🏆 App de <strong>Lucas Prado</strong></div>
+</div>
+
+<div class="controls">
+  <button class="fbtn active" data-f="all">Todos</button>
+  <button class="fbtn" data-f="grupos">Fase de Grupos</button>
+  <button class="fbtn" data-f="r32">32-avos</button>
+  <button class="fbtn" data-f="oitavas">Oitavas</button>
+  <button class="fbtn" data-f="quartas">Quartas+</button>
+  <button class="fbtn brbtn" data-f="brazil">🇧🇷 Brasil</button>
+  <div class="srch"><input type="text" id="si" placeholder="Buscar seleção ou cidade…"></div>
+</div>
+
+<main>
+
+<!-- Macro para gerar cards mais rápido -->
+<!-- Formato: data-ph, data-t, data-br, time, grp#, flag1, nome1, flag2, nome2, badge, cidade -->
+
+<div class="phase-title" data-ph="grupos">FASE DE GRUPOS</div>
+
+<!-- QUI 11 JUN -->
+<div class="dblock" data-ph="grupos">
+<div class="dhdr"><span class="dlbl"><strong>Qui 11/Jun</strong> — 1ª Rodada</span><div class="dline"></div></div>
+<div class="mc" data-ph="grupos" data-t="México África do Sul Cidade do México"><div class="tcol"><div class="mtime">16:00</div><div class="mbrt">BRT</div><div class="mgrp">GRP A</div></div><div class="team th"><div class="tflag">🇲🇽</div><div class="tname">México</div></div><div class="vs">VS</div><div class="team ta"><div class="tflag">🇿🇦</div><div class="tname">África do Sul</div></div><div class="vcol"><span class="gbadge">GRUPO A</span><div class="vcity">Azteca · Cidade do México</div></div></div>
+<div class="mc" data-ph="grupos" data-t="Coreia do Sul República Tcheca Tchéquia Guadalajara"><div class="tcol"><div class="mtime">23:00</div><div class="mbrt">BRT</div><div class="mgrp">GRP A</div></div><div class="team th"><div class="tflag">🇰🇷</div><div class="tname">Coreia do Sul</div></div><div class="vs">VS</div><div class="team ta"><div class="tflag">🇨🇿</div><div class="tname">Rep. Tcheca</div></div><div class="vcol"><span class="gbadge">GRUPO A</span><div class="vcity">Akron · Guadalajara</div></div></div>
+</div>
+
+<!-- SEX 12 JUN -->
+<div class="dblock" data-ph="grupos">
+<div class="dhdr"><span class="dlbl"><strong>Sex 12/Jun</strong> — 1ª Rodada</span><div class="dline"></div></div>
+<div class="mc" data-ph="grupos" data-t="Canadá Bósnia Herzegovina Toronto"><div class="tcol"><div class="mtime">16:00</div><div class="mbrt">BRT</div><div class="mgrp">GRP B</div></div><div class="team th"><div class="tflag">🇨🇦</div><div class="tname">Canadá</div></div><div class="vs">VS</div><div class="team ta"><div class="tflag">🇧🇦</div><div class="tname">Bósnia e Herz.</div></div><div class="vcol"><span class="gbadge">GRUPO B</span><div class="vcity">BMO Field · Toronto</div></div></div>
+<div class="mc" data-ph="grupos" data-t="Estados Unidos EUA Paraguai Los Angeles"><div class="tcol"><div class="mtime">22:00</div><div class="mbrt">BRT</div><div class="mgrp">GRP D</div></div><div class="team th"><div class="tflag">🇺🇸</div><div class="tname">Estados Unidos</div></div><div class="vs">VS</div><div class="team ta"><div class="tflag">🇵🇾</div><div class="tname">Paraguai</div></div><div class="vcol"><span class="gbadge">GRUPO D</span><div class="vcity">SoFi · Los Angeles</div></div></div>
+</div>
+
+<!-- SAB 13 JUN -->
+<div class="dblock" data-ph="grupos">
+<div class="dhdr"><span class="dlbl"><strong>Sáb 13/Jun</strong> — 1ª Rodada</span><div class="dline"></div></div>
+<div class="mc" data-ph="grupos" data-t="Catar Qatar Suíça São Francisco"><div class="tcol"><div class="mtime">16:00</div><div class="mbrt">BRT</div><div class="mgrp">GRP B</div></div><div class="team th"><div class="tflag">🇶🇦</div><div class="tname">Catar</div></div><div class="vs">VS</div><div class="team ta"><div class="tflag">🇨🇭</div><div class="tname">Suíça</div></div><div class="vcol"><span class="gbadge">GRUPO B</span><div class="vcity">Levi's · São Francisco</div></div></div>
+<div class="mc br" data-ph="grupos" data-t="Brasil Marrocos Nova York MetLife" data-br="1"><div class="tcol"><div class="mtime">19:00</div><div class="mbrt">BRT</div><div class="mgrp">GRP C</div></div><div class="team th"><div class="tflag">🇧🇷</div><div class="tname">Brasil<span class="bstar">★</span></div></div><div class="vs">VS</div><div class="team ta"><div class="tflag">🇲🇦</div><div class="tname">Marrocos</div></div><div class="vcol"><span class="gbadge">GRUPO C</span><div class="vcity">MetLife · Nova York/NJ</div></div></div>
+<div class="mc" data-ph="grupos" data-t="Haiti Escócia Boston"><div class="tcol"><div class="mtime">22:00</div><div class="mbrt">BRT</div><div class="mgrp">GRP C</div></div><div class="team th"><div class="tflag">🇭🇹</div><div class="tname">Haiti</div></div><div class="vs">VS</div><div class="team ta"><div class="tflag">🏴󠁧󠁢󠁳󠁣󠁴󠁿</div><div class="tname">Escócia</div></div><div class="vcol"><span class="gbadge">GRUPO C</span><div class="vcity">Gillette · Boston</div></div></div>
+</div>
+
+<!-- DOM 14 JUN -->
+<div class="dblock" data-ph="grupos">
+<div class="dhdr"><span class="dlbl"><strong>Dom 14/Jun</strong> — 1ª Rodada</span><div class="dline"></div></div>
+<div class="mc" data-ph="grupos" data-t="Austrália Turquia Vancouver"><div class="tcol"><div class="mtime">01:00</div><div class="mbrt">BRT</div><div class="mgrp">GRP D</div></div><div class="team th"><div class="tflag">🇦🇺</div><div class="tname">Austrália</div></div><div class="vs">VS</div><div class="team ta"><div class="tflag">🇹🇷</div><div class="tname">Turquia</div></div><div class="vcol"><span class="gbadge">GRUPO D</span><div class="vcity">BC Place · Vancouver</div></div></div>
+<div class="mc" data-ph="grupos" data-t="Alemanha Curaçao Houston"><div class="tcol"><div class="mtime">14:00</div><div class="mbrt">BRT</div><div class="mgrp">GRP E</div></div><div class="team th"><div class="tflag">🇩🇪</div><div class="tname">Alemanha</div></div><div class="vs">VS</div><div class="team ta"><div class="tflag">🇨🇼</div><div class="tname">Curaçao</div></div><div class="vcol"><span class="gbadge">GRUPO E</span><div class="vcity">NRG · Houston</div></div></div>
+<div class="mc" data-ph="grupos" data-t="Holanda Japão Dallas"><div class="tcol"><div class="mtime">17:00</div><div class="mbrt">BRT</div><div class="mgrp">GRP F</div></div><div class="team th"><div class="tflag">🇳🇱</div><div class="tname">Holanda</div></div><div class="vs">VS</div><div class="team ta"><div class="tflag">🇯🇵</div><div class="tname">Japão</div></div><div class="vcol"><span class="gbadge">GRUPO F</span><div class="vcity">AT&T · Dallas</div></div></div>
+<div class="mc" data-ph="grupos" data-t="Costa do Marfim Equador Filadélfia"><div class="tcol"><div class="mtime">20:00</div><div class="mbrt">BRT</div><div class="mgrp">GRP E</div></div><div class="team th"><div class="tflag">🇨🇮</div><div class="tname">Costa do Marfim</div></div><div class="vs">VS</div><div class="team ta"><div class="tflag">🇪🇨</div><div class="tname">Equador</div></div><div class="vcol"><span class="gbadge">GRUPO E</span><div class="vcity">Lincoln · Filadélfia</div></div></div>
+<div class="mc" data-ph="grupos" data-t="Suécia Tunísia Monterrey"><div class="tcol"><div class="mtime">23:00</div><div class="mbrt">BRT</div><div class="mgrp">GRP F</div></div><div class="team th"><div class="tflag">🇸🇪</div><div class="tname">Suécia</div></div><div class="vs">VS</div><div class="team ta"><div class="tflag">🇹🇳</div><div class="tname">Tunísia</div></div><div class="vcol"><span class="gbadge">GRUPO F</span><div class="vcity">BBVA · Monterrey</div></div></div>
+</div>
+
+<!-- SEG 15 JUN -->
+<div class="dblock" data-ph="grupos">
+<div class="dhdr"><span class="dlbl"><strong>Seg 15/Jun</strong> — 1ª Rodada</span><div class="dline"></div></div>
+<div class="mc" data-ph="grupos" data-t="Espanha Cabo Verde Atlanta"><div class="tcol"><div class="mtime">13:00</div><div class="mbrt">BRT</div><div class="mgrp">GRP H</div></div><div class="team th"><div class="tflag">🇪🇸</div><div class="tname">Espanha</div></div><div class="vs">VS</div><div class="team ta"><div class="tflag">🇨🇻</div><div class="tname">Cabo Verde</div></div><div class="vcol"><span class="gbadge">GRUPO H</span><div class="vcity">Mercedes-Benz · Atlanta</div></div></div>
+<div class="mc" data-ph="grupos" data-t="Bélgica Egito Seattle"><div class="tcol"><div class="mtime">16:00</div><div class="mbrt">BRT</div><div class="mgrp">GRP G</div></div><div class="team th"><div class="tflag">🇧🇪</div><div class="tname">Bélgica</div></div><div class="vs">VS</div><div class="team ta"><div class="tflag">🇪🇬</div><div class="tname">Egito</div></div><div class="vcol"><span class="gbadge">GRUPO G</span><div class="vcity">Lumen · Seattle</div></div></div>
+<div class="mc" data-ph="grupos" data-t="Arábia Saudita Uruguai Miami"><div class="tcol"><div class="mtime">19:00</div><div class="mbrt">BRT</div><div class="mgrp">GRP H</div></div><div class="team th"><div class="tflag">🇸🇦</div><div class="tname">Arábia Saudita</div></div><div class="vs">VS</div><div class="team ta"><div class="tflag">🇺🇾</div><div class="tname">Uruguai</div></div><div class="vcol"><span class="gbadge">GRUPO H</span><div class="vcity">Hard Rock · Miami</div></div></div>
+<div class="mc" data-ph="grupos" data-t="Irã Nova Zelândia Los Angeles"><div class="tcol"><div class="mtime">22:00</div><div class="mbrt">BRT</div><div class="mgrp">GRP G</div></div><div class="team th"><div class="tflag">🇮🇷</div><div class="tname">Irã</div></div><div class="vs">VS</div><div class="team ta"><div class="tflag">🇳🇿</div><div class="tname">Nova Zelândia</div></div><div class="vcol"><span class="gbadge">GRUPO G</span><div class="vcity">SoFi · Los Angeles</div></div></div>
+</div>
+
+<!-- TER 16 JUN -->
+<div class="dblock" data-ph="grupos">
+<div class="dhdr"><span class="dlbl"><strong>Ter 16/Jun</strong> — 1ª Rodada</span><div class="dline"></div></div>
+<div class="mc" data-ph="grupos" data-t="França Senegal Nova York MetLife"><div class="tcol"><div class="mtime">16:00</div><div class="mbrt">BRT</div><div class="mgrp">GRP I</div></div><div class="team th"><div class="tflag">🇫🇷</div><div class="tname">França</div></div><div class="vs">VS</div><div class="team ta"><div class="tflag">🇸🇳</div><div class="tname">Senegal</div></div><div class="vcol"><span class="gbadge">GRUPO I</span><div class="vcity">MetLife · Nova York/NJ</div></div></div>
+<div class="mc" data-ph="grupos" data-t="Iraque Noruega Boston"><div class="tcol"><div class="mtime">19:00</div><div class="mbrt">BRT</div><div class="mgrp">GRP I</div></div><div class="team th"><div class="tflag">🇮🇶</div><div class="tname">Iraque</div></div><div class="vs">VS</div><div class="team ta"><div class="tflag">🇳🇴</div><div class="tname">Noruega</div></div><div class="vcol"><span class="gbadge">GRUPO I</span><div class="vcity">Gillette · Boston</div></div></div>
+<div class="mc" data-ph="grupos" data-t="Argentina Argélia Kansas City"><div class="tcol"><div class="mtime">22:00</div><div class="mbrt">BRT</div><div class="mgrp">GRP J</div></div><div class="team th"><div class="tflag">🇦🇷</div><div class="tname">Argentina</div></div><div class="vs">VS</div><div class="team ta"><div class="tflag">🇩🇿</div><div class="tname">Argélia</div></div><div class="vcol"><span class="gbadge">GRUPO J</span><div class="vcity">Arrowhead · Kansas City</div></div></div>
+</div>
+
+<!-- QUA 17 JUN -->
+<div class="dblock" data-ph="grupos">
+<div class="dhdr"><span class="dlbl"><strong>Qua 17/Jun</strong> — 1ª Rodada</span><div class="dline"></div></div>
+<div class="mc" data-ph="grupos" data-t="Áustria Jordânia São Francisco"><div class="tcol"><div class="mtime">01:00</div><div class="mbrt">BRT</div><div class="mgrp">GRP J</div></div><div class="team th"><div class="tflag">🇦🇹</div><div class="tname">Áustria</div></div><div class="vs">VS</div><div class="team ta"><div class="tflag">🇯🇴</div><div class="tname">Jordânia</div></div><div class="vcol"><span class="gbadge">GRUPO J</span><div class="vcity">Levi's · São Francisco</div></div></div>
+<div class="mc" data-ph="grupos" data-t="Portugal RD Congo Houston"><div class="tcol"><div class="mtime">14:00</div><div class="mbrt">BRT</div><div class="mgrp">GRP K</div></div><div class="team th"><div class="tflag">🇵🇹</div><div class="tname">Portugal</div></div><div class="vs">VS</div><div class="team ta"><div class="tflag">🇨🇩</div><div class="tname">RD Congo</div></div><div class="vcol"><span class="gbadge">GRUPO K</span><div class="vcity">NRG · Houston</div></div></div>
+<div class="mc" data-ph="grupos" data-t="Inglaterra Croácia Dallas"><div class="tcol"><div class="mtime">17:00</div><div class="mbrt">BRT</div><div class="mgrp">GRP L</div></div><div class="team th"><div class="tflag">🏴󠁧󠁢󠁥󠁮󠁧󠁿</div><div class="tname">Inglaterra</div></div><div class="vs">VS</div><div class="team ta"><div class="tflag">🇭🇷</div><div class="tname">Croácia</div></div><div class="vcol"><span class="gbadge">GRUPO L</span><div class="vcity">AT&T · Dallas</div></div></div>
+<div class="mc" data-ph="grupos" data-t="Gana Panamá Toronto"><div class="tcol"><div class="mtime">20:00</div><div class="mbrt">BRT</div><div class="mgrp">GRP L</div></div><div class="team th"><div class="tflag">🇬🇭</div><div class="tname">Gana</div></div><div class="vs">VS</div><div class="team ta"><div class="tflag">🇵🇦</div><div class="tname">Panamá</div></div><div class="vcol"><span class="gbadge">GRUPO L</span><div class="vcity">BMO Field · Toronto</div></div></div>
+<div class="mc" data-ph="grupos" data-t="Uzbequistão Colômbia Cidade do México"><div class="tcol"><div class="mtime">23:00</div><div class="mbrt">BRT</div><div class="mgrp">GRP K</div></div><div class="team th"><div class="tflag">🇺🇿</div><div class="tname">Uzbequistão</div></div><div class="vs">VS</div><div class="team ta"><div class="tflag">🇨🇴</div><div class="tname">Colômbia</div></div><div class="vcol"><span class="gbadge">GRUPO K</span><div class="vcity">Azteca · Cidade do México</div></div></div>
+</div>
+
+<!-- QUI 18 JUN — 2a rodada -->
+<div class="dblock" data-ph="grupos">
+<div class="dhdr"><span class="dlbl"><strong>Qui 18/Jun</strong> — 2ª Rodada</span><div class="dline"></div></div>
+<div class="mc" data-ph="grupos" data-t="República Tcheca Tchéquia África do Sul Atlanta"><div class="tcol"><div class="mtime">13:00</div><div class="mbrt">BRT</div><div class="mgrp">GRP A</div></div><div class="team th"><div class="tflag">🇨🇿</div><div class="tname">Rep. Tcheca</div></div><div class="vs">VS</div><div class="team ta"><div class="tflag">🇿🇦</div><div class="tname">África do Sul</div></div><div class="vcol"><span class="gbadge">GRUPO A</span><div class="vcity">Mercedes-Benz · Atlanta</div></div></div>
+<div class="mc" data-ph="grupos" data-t="Suíça Bósnia Herzegovina Los Angeles"><div class="tcol"><div class="mtime">16:00</div><div class="mbrt">BRT</div><div class="mgrp">GRP B</div></div><div class="team th"><div class="tflag">🇨🇭</div><div class="tname">Suíça</div></div><div class="vs">VS</div><div class="team ta"><div class="tflag">🇧🇦</div><div class="tname">Bósnia e Herz.</div></div><div class="vcol"><span class="gbadge">GRUPO B</span><div class="vcity">SoFi · Los Angeles</div></div></div>
+<div class="mc" data-ph="grupos" data-t="Canadá Catar Vancouver"><div class="tcol"><div class="mtime">19:00</div><div class="mbrt">BRT</div><div class="mgrp">GRP B</div></div><div class="team th"><div class="tflag">🇨🇦</div><div class="tname">Canadá</div></div><div class="vs">VS</div><div class="team ta"><div class="tflag">🇶🇦</div><div class="tname">Catar</div></div><div class="vcol"><span class="gbadge">GRUPO B</span><div class="vcity">BC Place · Vancouver</div></div></div>
+<div class="mc" data-ph="grupos" data-t="México Coreia do Sul Guadalajara"><div class="tcol"><div class="mtime">22:00</div><div class="mbrt">BRT</div><div class="mgrp">GRP A</div></div><div class="team th"><div class="tflag">🇲🇽</div><div class="tname">México</div></div><div class="vs">VS</div><div class="team ta"><div class="tflag">🇰🇷</div><div class="tname">Coreia do Sul</div></div><div class="vcol"><span class="gbadge">GRUPO A</span><div class="vcity">Akron · Guadalajara</div></div></div>
+</div>
+
+<!-- SEX 19 JUN -->
+<div class="dblock" data-ph="grupos">
+<div class="dhdr"><span class="dlbl"><strong>Sex 19/Jun</strong> — 2ª Rodada</span><div class="dline"></div></div>
+<div class="mc" data-ph="grupos" data-t="Estados Unidos EUA Austrália Seattle"><div class="tcol"><div class="mtime">16:00</div><div class="mbrt">BRT</div><div class="mgrp">GRP D</div></div><div class="team th"><div class="tflag">🇺🇸</div><div class="tname">Estados Unidos</div></div><div class="vs">VS</div><div class="team ta"><div class="tflag">🇦🇺</div><div class="tname">Austrália</div></div><div class="vcol"><span class="gbadge">GRUPO D</span><div class="vcity">Lumen · Seattle</div></div></div>
+<div class="mc" data-ph="grupos" data-t="Escócia Marrocos Boston"><div class="tcol"><div class="mtime">19:00</div><div class="mbrt">BRT</div><div class="mgrp">GRP C</div></div><div class="team th"><div class="tflag">🏴󠁧󠁢󠁳󠁣󠁴󠁿</div><div class="tname">Escócia</div></div><div class="vs">VS</div><div class="team ta"><div class="tflag">🇲🇦</div><div class="tname">Marrocos</div></div><div class="vcol"><span class="gbadge">GRUPO C</span><div class="vcity">Gillette · Boston</div></div></div>
+<div class="mc br" data-ph="grupos" data-t="Brasil Haiti Filadélfia" data-br="1"><div class="tcol"><div class="mtime">21:30</div><div class="mbrt">BRT</div><div class="mgrp">GRP C</div></div><div class="team th"><div class="tflag">🇧🇷</div><div class="tname">Brasil<span class="bstar">★</span></div></div><div class="vs">VS</div><div class="team ta"><div class="tflag">🇭🇹</div><div class="tname">Haiti</div></div><div class="vcol"><span class="gbadge">GRUPO C</span><div class="vcity">Lincoln · Filadélfia</div></div></div>
+</div>
+
+<!-- SAB 20 JUN -->
+<div class="dblock" data-ph="grupos">
+<div class="dhdr"><span class="dlbl"><strong>Sáb 20/Jun</strong> — 2ª Rodada</span><div class="dline"></div></div>
+<div class="mc" data-ph="grupos" data-t="Turquia Paraguai São Francisco"><div class="tcol"><div class="mtime">00:00</div><div class="mbrt">BRT</div><div class="mgrp">GRP D</div></div><div class="team th"><div class="tflag">🇹🇷</div><div class="tname">Turquia</div></div><div class="vs">VS</div><div class="team ta"><div class="tflag">🇵🇾</div><div class="tname">Paraguai</div></div><div class="vcol"><span class="gbadge">GRUPO D</span><div class="vcity">Levi's · São Francisco</div></div></div>
+<div class="mc" data-ph="grupos" data-t="Holanda Suécia Houston"><div class="tcol"><div class="mtime">14:00</div><div class="mbrt">BRT</div><div class="mgrp">GRP F</div></div><div class="team th"><div class="tflag">🇳🇱</div><div class="tname">Holanda</div></div><div class="vs">VS</div><div class="team ta"><div class="tflag">🇸🇪</div><div class="tname">Suécia</div></div><div class="vcol"><span class="gbadge">GRUPO F</span><div class="vcity">NRG · Houston</div></div></div>
+<div class="mc" data-ph="grupos" data-t="Alemanha Costa do Marfim Toronto"><div class="tcol"><div class="mtime">17:00</div><div class="mbrt">BRT</div><div class="mgrp">GRP E</div></div><div class="team th"><div class="tflag">🇩🇪</div><div class="tname">Alemanha</div></div><div class="vs">VS</div><div class="team ta"><div class="tflag">🇨🇮</div><div class="tname">Costa do Marfim</div></div><div class="vcol"><span class="gbadge">GRUPO E</span><div class="vcity">BMO Field · Toronto</div></div></div>
+<div class="mc" data-ph="grupos" data-t="Equador Curaçao Kansas City"><div class="tcol"><div class="mtime">21:00</div><div class="mbrt">BRT</div><div class="mgrp">GRP E</div></div><div class="team th"><div class="tflag">🇪🇨</div><div class="tname">Equador</div></div><div class="vs">VS</div><div class="team ta"><div class="tflag">🇨🇼</div><div class="tname">Curaçao</div></div><div class="vcol"><span class="gbadge">GRUPO E</span><div class="vcity">Arrowhead · Kansas City</div></div></div>
+</div>
+
+<!-- DOM 21 JUN -->
+<div class="dblock" data-ph="grupos">
+<div class="dhdr"><span class="dlbl"><strong>Dom 21/Jun</strong> — 2ª Rodada</span><div class="dline"></div></div>
+<div class="mc" data-ph="grupos" data-t="Tunísia Japão Monterrey"><div class="tcol"><div class="mtime">01:00</div><div class="mbrt">BRT</div><div class="mgrp">GRP F</div></div><div class="team th"><div class="tflag">🇹🇳</div><div class="tname">Tunísia</div></div><div class="vs">VS</div><div class="team ta"><div class="tflag">🇯🇵</div><div class="tname">Japão</div></div><div class="vcol"><span class="gbadge">GRUPO F</span><div class="vcity">BBVA · Monterrey</div></div></div>
+<div class="mc" data-ph="grupos" data-t="Espanha Arábia Saudita Atlanta"><div class="tcol"><div class="mtime">13:00</div><div class="mbrt">BRT</div><div class="mgrp">GRP H</div></div><div class="team th"><div class="tflag">🇪🇸</div><div class="tname">Espanha</div></div><div class="vs">VS</div><div class="team ta"><div class="tflag">🇸🇦</div><div class="tname">Arábia Saudita</div></div><div class="vcol"><span class="gbadge">GRUPO H</span><div class="vcity">Mercedes-Benz · Atlanta</div></div></div>
+<div class="mc" data-ph="grupos" data-t="Bélgica Irã Los Angeles"><div class="tcol"><div class="mtime">16:00</div><div class="mbrt">BRT</div><div class="mgrp">GRP G</div></div><div class="team th"><div class="tflag">🇧🇪</div><div class="tname">Bélgica</div></div><div class="vs">VS</div><div class="team ta"><div class="tflag">🇮🇷</div><div class="tname">Irã</div></div><div class="vcol"><span class="gbadge">GRUPO G</span><div class="vcity">SoFi · Los Angeles</div></div></div>
+<div class="mc" data-ph="grupos" data-t="Uruguai Cabo Verde Miami"><div class="tcol"><div class="mtime">19:00</div><div class="mbrt">BRT</div><div class="mgrp">GRP H</div></div><div class="team th"><div class="tflag">🇺🇾</div><div class="tname">Uruguai</div></div><div class="vs">VS</div><div class="team ta"><div class="tflag">🇨🇻</div><div class="tname">Cabo Verde</div></div><div class="vcol"><span class="gbadge">GRUPO H</span><div class="vcity">Hard Rock · Miami</div></div></div>
+<div class="mc" data-ph="grupos" data-t="Nova Zelândia Egito Vancouver"><div class="tcol"><div class="mtime">22:00</div><div class="mbrt">BRT</div><div class="mgrp">GRP G</div></div><div class="team th"><div class="tflag">🇳🇿</div><div class="tname">Nova Zelândia</div></div><div class="vs">VS</div><div class="team ta"><div class="tflag">🇪🇬</div><div class="tname">Egito</div></div><div class="vcol"><span class="gbadge">GRUPO G</span><div class="vcity">BC Place · Vancouver</div></div></div>
+</div>
+
+<!-- SEG 22 JUN -->
+<div class="dblock" data-ph="grupos">
+<div class="dhdr"><span class="dlbl"><strong>Seg 22/Jun</strong> — 2ª Rodada</span><div class="dline"></div></div>
+<div class="mc" data-ph="grupos" data-t="Argentina Áustria Dallas"><div class="tcol"><div class="mtime">14:00</div><div class="mbrt">BRT</div><div class="mgrp">GRP J</div></div><div class="team th"><div class="tflag">🇦🇷</div><div class="tname">Argentina</div></div><div class="vs">VS</div><div class="team ta"><div class="tflag">🇦🇹</div><div class="tname">Áustria</div></div><div class="vcol"><span class="gbadge">GRUPO J</span><div class="vcity">AT&T · Dallas</div></div></div>
+<div class="mc" data-ph="grupos" data-t="França Iraque Filadélfia"><div class="tcol"><div class="mtime">18:00</div><div class="mbrt">BRT</div><div class="mgrp">GRP I</div></div><div class="team th"><div class="tflag">🇫🇷</div><div class="tname">França</div></div><div class="vs">VS</div><div class="team ta"><div class="tflag">🇮🇶</div><div class="tname">Iraque</div></div><div class="vcol"><span class="gbadge">GRUPO I</span><div class="vcity">Lincoln · Filadélfia</div></div></div>
+<div class="mc" data-ph="grupos" data-t="Noruega Senegal Nova York MetLife"><div class="tcol"><div class="mtime">21:00</div><div class="mbrt">BRT</div><div class="mgrp">GRP I</div></div><div class="team th"><div class="tflag">🇳🇴</div><div class="tname">Noruega</div></div><div class="vs">VS</div><div class="team ta"><div class="tflag">🇸🇳</div><div class="tname">Senegal</div></div><div class="vcol"><span class="gbadge">GRUPO I</span><div class="vcity">MetLife · Nova York/NJ</div></div></div>
+</div>
+
+<!-- TER 23 JUN -->
+<div class="dblock" data-ph="grupos">
+<div class="dhdr"><span class="dlbl"><strong>Ter 23/Jun</strong> — 2ª Rodada</span><div class="dline"></div></div>
+<div class="mc" data-ph="grupos" data-t="Jordânia Argélia São Francisco"><div class="tcol"><div class="mtime">00:00</div><div class="mbrt">BRT</div><div class="mgrp">GRP J</div></div><div class="team th"><div class="tflag">🇯🇴</div><div class="tname">Jordânia</div></div><div class="vs">VS</div><div class="team ta"><div class="tflag">🇩🇿</div><div class="tname">Argélia</div></div><div class="vcol"><span class="gbadge">GRUPO J</span><div class="vcity">Levi's · São Francisco</div></div></div>
+<div class="mc" data-ph="grupos" data-t="Portugal Uzbequistão Houston"><div class="tcol"><div class="mtime">14:00</div><div class="mbrt">BRT</div><div class="mgrp">GRP K</div></div><div class="team th"><div class="tflag">🇵🇹</div><div class="tname">Portugal</div></div><div class="vs">VS</div><div class="team ta"><div class="tflag">🇺🇿</div><div class="tname">Uzbequistão</div></div><div class="vcol"><span class="gbadge">GRUPO K</span><div class="vcity">NRG · Houston</div></div></div>
+<div class="mc" data-ph="grupos" data-t="Inglaterra Gana Boston"><div class="tcol"><div class="mtime">17:00</div><div class="mbrt">BRT</div><div class="mgrp">GRP L</div></div><div class="team th"><div class="tflag">🏴󠁧󠁢󠁥󠁮󠁧󠁿</div><div class="tname">Inglaterra</div></div><div class="vs">VS</div><div class="team ta"><div class="tflag">🇬🇭</div><div class="tname">Gana</div></div><div class="vcol"><span class="gbadge">GRUPO L</span><div class="vcity">Gillette · Boston</div></div></div>
+<div class="mc" data-ph="grupos" data-t="Panamá Croácia Toronto"><div class="tcol"><div class="mtime">20:00</div><div class="mbrt">BRT</div><div class="mgrp">GRP L</div></div><div class="team th"><div class="tflag">🇵🇦</div><div class="tname">Panamá</div></div><div class="vs">VS</div><div class="team ta"><div class="tflag">🇭🇷</div><div class="tname">Croácia</div></div><div class="vcol"><span class="gbadge">GRUPO L</span><div class="vcity">BMO Field · Toronto</div></div></div>
+<div class="mc" data-ph="grupos" data-t="Colômbia RD Congo Guadalajara"><div class="tcol"><div class="mtime">23:00</div><div class="mbrt">BRT</div><div class="mgrp">GRP K</div></div><div class="team th"><div class="tflag">🇨🇴</div><div class="tname">Colômbia</div></div><div class="vs">VS</div><div class="team ta"><div class="tflag">🇨🇩</div><div class="tname">RD Congo</div></div><div class="vcol"><span class="gbadge">GRUPO K</span><div class="vcity">Akron · Guadalajara</div></div></div>
+</div>
+
+<!-- QUA 24 JUN — 3a rodada -->
+<div class="dblock" data-ph="grupos">
+<div class="dhdr"><span class="dlbl"><strong>Qua 24/Jun</strong> — 3ª Rodada</span><div class="dline"></div></div>
+<div class="mc" data-ph="grupos" data-t="Suíça Canadá Vancouver"><div class="tcol"><div class="mtime">16:00</div><div class="mbrt">BRT</div><div class="mgrp">GRP B</div></div><div class="team th"><div class="tflag">🇨🇭</div><div class="tname">Suíça</div></div><div class="vs">VS</div><div class="team ta"><div class="tflag">🇨🇦</div><div class="tname">Canadá</div></div><div class="vcol"><span class="gbadge">GRUPO B</span><div class="vcity">BC Place · Vancouver</div></div></div>
+<div class="mc" data-ph="grupos" data-t="Bósnia Herzegovina Catar Seattle"><div class="tcol"><div class="mtime">16:00</div><div class="mbrt">BRT</div><div class="mgrp">GRP B</div></div><div class="team th"><div class="tflag">🇧🇦</div><div class="tname">Bósnia e Herz.</div></div><div class="vs">VS</div><div class="team ta"><div class="tflag">🇶🇦</div><div class="tname">Catar</div></div><div class="vcol"><span class="gbadge">GRUPO B</span><div class="vcity">Lumen · Seattle</div></div></div>
+<div class="mc br" data-ph="grupos" data-t="Escócia Brasil Miami" data-br="1"><div class="tcol"><div class="mtime">19:00</div><div class="mbrt">BRT</div><div class="mgrp">GRP C</div></div><div class="team th"><div class="tflag">🏴󠁧󠁢󠁳󠁣󠁴󠁿</div><div class="tname">Escócia</div></div><div class="vs">VS</div><div class="team ta"><div class="tflag">🇧🇷</div><div class="tname">Brasil<span class="bstar">★</span></div></div><div class="vcol"><span class="gbadge">GRUPO C</span><div class="vcity">Hard Rock · Miami</div></div></div>
+<div class="mc" data-ph="grupos" data-t="Marrocos Haiti Atlanta"><div class="tcol"><div class="mtime">19:00</div><div class="mbrt">BRT</div><div class="mgrp">GRP C</div></div><div class="team th"><div class="tflag">🇲🇦</div><div class="tname">Marrocos</div></div><div class="vs">VS</div><div class="team ta"><div class="tflag">🇭🇹</div><div class="tname">Haiti</div></div><div class="vcol"><span class="gbadge">GRUPO C</span><div class="vcity">Mercedes-Benz · Atlanta</div></div></div>
+<div class="mc" data-ph="grupos" data-t="República Tcheca Tchéquia México Cidade do México"><div class="tcol"><div class="mtime">22:00</div><div class="mbrt">BRT</div><div class="mgrp">GRP A</div></div><div class="team th"><div class="tflag">🇨🇿</div><div class="tname">Rep. Tcheca</div></div><div class="vs">VS</div><div class="team ta"><div class="tflag">🇲🇽</div><div class="tname">México</div></div><div class="vcol"><span class="gbadge">GRUPO A</span><div class="vcity">Azteca · Cidade do México</div></div></div>
+<div class="mc" data-ph="grupos" data-t="África do Sul Coreia do Sul Monterrey"><div class="tcol"><div class="mtime">22:00</div><div class="mbrt">BRT</div><div class="mgrp">GRP A</div></div><div class="team th"><div class="tflag">🇿🇦</div><div class="tname">África do Sul</div></div><div class="vs">VS</div><div class="team ta"><div class="tflag">🇰🇷</div><div class="tname">Coreia do Sul</div></div><div class="vcol"><span class="gbadge">GRUPO A</span><div class="vcity">BBVA · Monterrey</div></div></div>
+</div>
+
+<!-- QUI 25 JUN -->
+<div class="dblock" data-ph="grupos">
+<div class="dhdr"><span class="dlbl"><strong>Qui 25/Jun</strong> — 3ª Rodada</span><div class="dline"></div></div>
+<div class="mc" data-ph="grupos" data-t="Curaçao Costa do Marfim Filadélfia"><div class="tcol"><div class="mtime">17:00</div><div class="mbrt">BRT</div><div class="mgrp">GRP E</div></div><div class="team th"><div class="tflag">🇨🇼</div><div class="tname">Curaçao</div></div><div class="vs">VS</div><div class="team ta"><div class="tflag">🇨🇮</div><div class="tname">Costa do Marfim</div></div><div class="vcol"><span class="gbadge">GRUPO E</span><div class="vcity">Lincoln · Filadélfia</div></div></div>
+<div class="mc" data-ph="grupos" data-t="Equador Alemanha Nova York MetLife"><div class="tcol"><div class="mtime">17:00</div><div class="mbrt">BRT</div><div class="mgrp">GRP E</div></div><div class="team th"><div class="tflag">🇪🇨</div><div class="tname">Equador</div></div><div class="vs">VS</div><div class="team ta"><div class="tflag">🇩🇪</div><div class="tname">Alemanha</div></div><div class="vcol"><span class="gbadge">GRUPO E</span><div class="vcity">MetLife · Nova York/NJ</div></div></div>
+<div class="mc" data-ph="grupos" data-t="Japão Suécia Dallas"><div class="tcol"><div class="mtime">20:00</div><div class="mbrt">BRT</div><div class="mgrp">GRP F</div></div><div class="team th"><div class="tflag">🇯🇵</div><div class="tname">Japão</div></div><div class="vs">VS</div><div class="team ta"><div class="tflag">🇸🇪</div><div class="tname">Suécia</div></div><div class="vcol"><span class="gbadge">GRUPO F</span><div class="vcity">AT&T · Dallas</div></div></div>
+<div class="mc" data-ph="grupos" data-t="Tunísia Holanda Kansas City"><div class="tcol"><div class="mtime">20:00</div><div class="mbrt">BRT</div><div class="mgrp">GRP F</div></div><div class="team th"><div class="tflag">🇹🇳</div><div class="tname">Tunísia</div></div><div class="vs">VS</div><div class="team ta"><div class="tflag">🇳🇱</div><div class="tname">Holanda</div></div><div class="vcol"><span class="gbadge">GRUPO F</span><div class="vcity">Arrowhead · Kansas City</div></div></div>
+<div class="mc" data-ph="grupos" data-t="Turquia Estados Unidos EUA Los Angeles"><div class="tcol"><div class="mtime">23:00</div><div class="mbrt">BRT</div><div class="mgrp">GRP D</div></div><div class="team th"><div class="tflag">🇹🇷</div><div class="tname">Turquia</div></div><div class="vs">VS</div><div class="team ta"><div class="tflag">🇺🇸</div><div class="tname">Estados Unidos</div></div><div class="vcol"><span class="gbadge">GRUPO D</span><div class="vcity">SoFi · Los Angeles</div></div></div>
+<div class="mc" data-ph="grupos" data-t="Paraguai Austrália São Francisco"><div class="tcol"><div class="mtime">23:00</div><div class="mbrt">BRT</div><div class="mgrp">GRP D</div></div><div class="team th"><div class="tflag">🇵🇾</div><div class="tname">Paraguai</div></div><div class="vs">VS</div><div class="team ta"><div class="tflag">🇦🇺</div><div class="tname">Austrália</div></div><div class="vcol"><span class="gbadge">GRUPO D</span><div class="vcity">Levi's · São Francisco</div></div></div>
+</div>
+
+<!-- SEX 26 JUN -->
+<div class="dblock" data-ph="grupos">
+<div class="dhdr"><span class="dlbl"><strong>Sex 26/Jun</strong> — 3ª Rodada</span><div class="dline"></div></div>
+<div class="mc" data-ph="grupos" data-t="Noruega França Boston"><div class="tcol"><div class="mtime">16:00</div><div class="mbrt">BRT</div><div class="mgrp">GRP I</div></div><div class="team th"><div class="tflag">🇳🇴</div><div class="tname">Noruega</div></div><div class="vs">VS</div><div class="team ta"><div class="tflag">🇫🇷</div><div class="tname">França</div></div><div class="vcol"><span class="gbadge">GRUPO I</span><div class="vcity">Gillette · Boston</div></div></div>
+<div class="mc" data-ph="grupos" data-t="Senegal Iraque Toronto"><div class="tcol"><div class="mtime">16:00</div><div class="mbrt">BRT</div><div class="mgrp">GRP I</div></div><div class="team th"><div class="tflag">🇸🇳</div><div class="tname">Senegal</div></div><div class="vs">VS</div><div class="team ta"><div class="tflag">🇮🇶</div><div class="tname">Iraque</div></div><div class="vcol"><span class="gbadge">GRUPO I</span><div class="vcity">BMO Field · Toronto</div></div></div>
+<div class="mc" data-ph="grupos" data-t="Cabo Verde Arábia Saudita Houston"><div class="tcol"><div class="mtime">21:00</div><div class="mbrt">BRT</div><div class="mgrp">GRP H</div></div><div class="team th"><div class="tflag">🇨🇻</div><div class="tname">Cabo Verde</div></div><div class="vs">VS</div><div class="team ta"><div class="tflag">🇸🇦</div><div class="tname">Arábia Saudita</div></div><div class="vcol"><span class="gbadge">GRUPO H</span><div class="vcity">NRG · Houston</div></div></div>
+<div class="mc" data-ph="grupos" data-t="Uruguai Espanha Guadalajara"><div class="tcol"><div class="mtime">21:00</div><div class="mbrt">BRT</div><div class="mgrp">GRP H</div></div><div class="team th"><div class="tflag">🇺🇾</div><div class="tname">Uruguai</div></div><div class="vs">VS</div><div class="team ta"><div class="tflag">🇪🇸</div><div class="tname">Espanha</div></div><div class="vcol"><span class="gbadge">GRUPO H</span><div class="vcity">Akron · Guadalajara</div></div></div>
+</div>
+
+<!-- SAB 27 JUN -->
+<div class="dblock" data-ph="grupos">
+<div class="dhdr"><span class="dlbl"><strong>Sáb 27/Jun</strong> — 3ª Rodada</span><div class="dline"></div></div>
+<div class="mc" data-ph="grupos" data-t="Egito Irã Seattle"><div class="tcol"><div class="mtime">00:00</div><div class="mbrt">BRT</div><div class="mgrp">GRP G</div></div><div class="team th"><div class="tflag">🇪🇬</div><div class="tname">Egito</div></div><div class="vs">VS</div><div class="team ta"><div class="tflag">🇮🇷</div><div class="tname">Irã</div></div><div class="vcol"><span class="gbadge">GRUPO G</span><div class="vcity">Lumen · Seattle</div></div></div>
+<div class="mc" data-ph="grupos" data-t="Nova Zelândia Bélgica Vancouver"><div class="tcol"><div class="mtime">00:00</div><div class="mbrt">BRT</div><div class="mgrp">GRP G</div></div><div class="team th"><div class="tflag">🇳🇿</div><div class="tname">Nova Zelândia</div></div><div class="vs">VS</div><div class="team ta"><div class="tflag">🇧🇪</div><div class="tname">Bélgica</div></div><div class="vcol"><span class="gbadge">GRUPO G</span><div class="vcity">BC Place · Vancouver</div></div></div>
+<div class="mc" data-ph="grupos" data-t="Panamá Inglaterra Nova York MetLife"><div class="tcol"><div class="mtime">18:00</div><div class="mbrt">BRT</div><div class="mgrp">GRP L</div></div><div class="team th"><div class="tflag">🇵🇦</div><div class="tname">Panamá</div></div><div class="vs">VS</div><div class="team ta"><div class="tflag">🏴󠁧󠁢󠁥󠁮󠁧󠁿</div><div class="tname">Inglaterra</div></div><div class="vcol"><span class="gbadge">GRUPO L</span><div class="vcity">MetLife · Nova York/NJ</div></div></div>
+<div class="mc" data-ph="grupos" data-t="Croácia Gana Filadélfia"><div class="tcol"><div class="mtime">18:00</div><div class="mbrt">BRT</div><div class="mgrp">GRP L</div></div><div class="team th"><div class="tflag">🇭🇷</div><div class="tname">Croácia</div></div><div class="vs">VS</div><div class="team ta"><div class="tflag">🇬🇭</div><div class="tname">Gana</div></div><div class="vcol"><span class="gbadge">GRUPO L</span><div class="vcity">Lincoln · Filadélfia</div></div></div>
+<div class="mc" data-ph="grupos" data-t="Colômbia Portugal Miami"><div class="tcol"><div class="mtime">20:30</div><div class="mbrt">BRT</div><div class="mgrp">GRP K</div></div><div class="team th"><div class="tflag">🇨🇴</div><div class="tname">Colômbia</div></div><div class="vs">VS</div><div class="team ta"><div class="tflag">🇵🇹</div><div class="tname">Portugal</div></div><div class="vcol"><span class="gbadge">GRUPO K</span><div class="vcity">Hard Rock · Miami</div></div></div>
+<div class="mc" data-ph="grupos" data-t="RD Congo Uzbequistão Atlanta"><div class="tcol"><div class="mtime">20:30</div><div class="mbrt">BRT</div><div class="mgrp">GRP K</div></div><div class="team th"><div class="tflag">🇨🇩</div><div class="tname">RD Congo</div></div><div class="vs">VS</div><div class="team ta"><div class="tflag">🇺🇿</div><div class="tname">Uzbequistão</div></div><div class="vcol"><span class="gbadge">GRUPO K</span><div class="vcity">Mercedes-Benz · Atlanta</div></div></div>
+<div class="mc" data-ph="grupos" data-t="Argélia Áustria Kansas City"><div class="tcol"><div class="mtime">23:00</div><div class="mbrt">BRT</div><div class="mgrp">GRP J</div></div><div class="team th"><div class="tflag">🇩🇿</div><div class="tname">Argélia</div></div><div class="vs">VS</div><div class="team ta"><div class="tflag">🇦🇹</div><div class="tname">Áustria</div></div><div class="vcol"><span class="gbadge">GRUPO J</span><div class="vcity">Arrowhead · Kansas City</div></div></div>
+<div class="mc" data-ph="grupos" data-t="Jordânia Argentina Dallas"><div class="tcol"><div class="mtime">23:00</div><div class="mbrt">BRT</div><div class="mgrp">GRP J</div></div><div class="team th"><div class="tflag">🇯🇴</div><div class="tname">Jordânia</div></div><div class="vs">VS</div><div class="team ta"><div class="tflag">🇦🇷</div><div class="tname">Argentina</div></div><div class="vcol"><span class="gbadge">GRUPO J</span><div class="vcity">AT&T · Dallas</div></div></div>
+</div>
+
+<!-- ══ 32-AVOS ══ -->
+<div class="phase-title" data-ph="r32">32-AVOS DE FINAL</div>
+
+<div class="dblock" data-ph="r32">
+<div class="dhdr"><span class="dlbl"><strong>Dom 28/Jun</strong></span><div class="dline"></div></div>
+<div class="mc" data-ph="r32" data-t="32avos Los Angeles"><div class="tcol"><div class="mtime">16:00</div><div class="mbrt">BRT</div><div class="mgrp">J73</div></div><div class="team th"><div class="tflag">⚽</div><div class="tname">2º Grupo A</div></div><div class="vs">VS</div><div class="team ta"><div class="tflag">⚽</div><div class="tname">2º Grupo B</div></div><div class="vcol"><span class="gbadge">32-AVOS</span><div class="vcity">SoFi · Los Angeles</div></div></div>
+</div>
+<div class="dblock" data-ph="r32">
+<div class="dhdr"><span class="dlbl"><strong>Seg 29/Jun</strong></span><div class="dline"></div></div>
+<div class="mc br" data-ph="r32" data-t="Brasil 32avos Houston" data-br="1"><div class="tcol"><div class="mtime">14:00</div><div class="mbrt">BRT</div><div class="mgrp">J76</div></div><div class="team th"><div class="tflag">🇧🇷</div><div class="tname">1º Grupo C<span class="bstar">★</span></div></div><div class="vs">VS</div><div class="team ta"><div class="tflag">⚽</div><div class="tname">2º Grupo F</div></div><div class="vcol"><span class="gbadge">32-AVOS</span><div class="vcity">NRG · Houston</div></div></div>
+<div class="mc" data-ph="r32" data-t="32avos Boston"><div class="tcol"><div class="mtime">17:30</div><div class="mbrt">BRT</div><div class="mgrp">J74</div></div><div class="team th"><div class="tflag">⚽</div><div class="tname">1º Grupo E</div></div><div class="vs">VS</div><div class="team ta"><div class="tflag">⚽</div><div class="tname">Melhor 3º</div></div><div class="vcol"><span class="gbadge">32-AVOS</span><div class="vcity">Gillette · Boston</div></div></div>
+<div class="mc" data-ph="r32" data-t="32avos Monterrey"><div class="tcol"><div class="mtime">22:00</div><div class="mbrt">BRT</div><div class="mgrp">J75</div></div><div class="team th"><div class="tflag">⚽</div><div class="tname">1º Grupo F</div></div><div class="vs">VS</div><div class="team ta"><div class="tflag">⚽</div><div class="tname">2º Grupo C</div></div><div class="vcol"><span class="gbadge">32-AVOS</span><div class="vcity">BBVA · Monterrey</div></div></div>
+</div>
+<div class="dblock" data-ph="r32">
+<div class="dhdr"><span class="dlbl"><strong>Ter 30/Jun</strong></span><div class="dline"></div></div>
+<div class="mc" data-ph="r32" data-t="32avos Dallas"><div class="tcol"><div class="mtime">14:00</div><div class="mbrt">BRT</div><div class="mgrp">J78</div></div><div class="team th"><div class="tflag">⚽</div><div class="tname">2º Grupo E</div></div><div class="vs">VS</div><div class="team ta"><div class="tflag">⚽</div><div class="tname">2º Grupo I</div></div><div class="vcol"><span class="gbadge">32-AVOS</span><div class="vcity">AT&T · Dallas</div></div></div>
+<div class="mc" data-ph="r32" data-t="32avos Nova York MetLife"><div class="tcol"><div class="mtime">18:00</div><div class="mbrt">BRT</div><div class="mgrp">J77</div></div><div class="team th"><div class="tflag">⚽</div><div class="tname">1º Grupo I</div></div><div class="vs">VS</div><div class="team ta"><div class="tflag">⚽</div><div class="tname">Melhor 3º</div></div><div class="vcol"><span class="gbadge">32-AVOS</span><div class="vcity">MetLife · Nova York/NJ</div></div></div>
+<div class="mc" data-ph="r32" data-t="32avos Cidade do México"><div class="tcol"><div class="mtime">22:00</div><div class="mbrt">BRT</div><div class="mgrp">J79</div></div><div class="team th"><div class="tflag">⚽</div><div class="tname">1º Grupo A</div></div><div class="vs">VS</div><div class="team ta"><div class="tflag">⚽</div><div class="tname">Melhor 3º</div></div><div class="vcol"><span class="gbadge">32-AVOS</span><div class="vcity">Azteca · Cidade do México</div></div></div>
+</div>
+<div class="dblock" data-ph="r32">
+<div class="dhdr"><span class="dlbl"><strong>Qua 1º/Jul</strong></span><div class="dline"></div></div>
+<div class="mc" data-ph="r32" data-t="32avos Atlanta"><div class="tcol"><div class="mtime">13:00</div><div class="mbrt">BRT</div><div class="mgrp">J80</div></div><div class="team th"><div class="tflag">⚽</div><div class="tname">1º Grupo L</div></div><div class="vs">VS</div><div class="team ta"><div class="tflag">⚽</div><div class="tname">Melhor 3º</div></div><div class="vcol"><span class="gbadge">32-AVOS</span><div class="vcity">Mercedes-Benz · Atlanta</div></div></div>
+<div class="mc" data-ph="r32" data-t="32avos Seattle"><div class="tcol"><div class="mtime">17:00</div><div class="mbrt">BRT</div><div class="mgrp">J82</div></div><div class="team th"><div class="tflag">⚽</div><div class="tname">1º Grupo G</div></div><div class="vs">VS</div><div class="team ta"><div class="tflag">⚽</div><div class="tname">Melhor 3º</div></div><div class="vcol"><span class="gbadge">32-AVOS</span><div class="vcity">Lumen · Seattle</div></div></div>
+<div class="mc" data-ph="r32" data-t="32avos São Francisco"><div class="tcol"><div class="mtime">21:00</div><div class="mbrt">BRT</div><div class="mgrp">J81</div></div><div class="team th"><div class="tflag">⚽</div><div class="tname">1º Grupo D</div></div><div class="vs">VS</div><div class="team ta"><div class="tflag">⚽</div><div class="tname">Melhor 3º</div></div><div class="vcol"><span class="gbadge">32-AVOS</span><div class="vcity">Levi's · São Francisco</div></div></div>
+</div>
+<div class="dblock" data-ph="r32">
+<div class="dhdr"><span class="dlbl"><strong>Qui 2/Jul</strong></span><div class="dline"></div></div>
+<div class="mc" data-ph="r32" data-t="32avos Los Angeles"><div class="tcol"><div class="mtime">16:00</div><div class="mbrt">BRT</div><div class="mgrp">J84</div></div><div class="team th"><div class="tflag">⚽</div><div class="tname">1º Grupo H</div></div><div class="vs">VS</div><div class="team ta"><div class="tflag">⚽</div><div class="tname">2º Grupo J</div></div><div class="vcol"><span class="gbadge">32-AVOS</span><div class="vcity">SoFi · Los Angeles</div></div></div>
+<div class="mc" data-ph="r32" data-t="32avos Toronto"><div class="tcol"><div class="mtime">20:00</div><div class="mbrt">BRT</div><div class="mgrp">J83</div></div><div class="team th"><div class="tflag">⚽</div><div class="tname">2º Grupo K</div></div><div class="vs">VS</div><div class="team ta"><div class="tflag">⚽</div><div class="tname">2º Grupo L</div></div><div class="vcol"><span class="gbadge">32-AVOS</span><div class="vcity">BMO Field · Toronto</div></div></div>
+</div>
+<div class="dblock" data-ph="r32">
+<div class="dhdr"><span class="dlbl"><strong>Sex 3/Jul</strong></span><div class="dline"></div></div>
+<div class="mc" data-ph="r32" data-t="32avos Vancouver"><div class="tcol"><div class="mtime">00:00</div><div class="mbrt">BRT</div><div class="mgrp">J85</div></div><div class="team th"><div class="tflag">⚽</div><div class="tname">1º Grupo B</div></div><div class="vs">VS</div><div class="team ta"><div class="tflag">⚽</div><div class="tname">Melhor 3º</div></div><div class="vcol"><span class="gbadge">32-AVOS</span><div class="vcity">BC Place · Vancouver</div></div></div>
+<div class="mc" data-ph="r32" data-t="32avos Dallas"><div class="tcol"><div class="mtime">15:00</div><div class="mbrt">BRT</div><div class="mgrp">J88</div></div><div class="team th"><div class="tflag">⚽</div><div class="tname">2º Grupo D</div></div><div class="vs">VS</div><div class="team ta"><div class="tflag">⚽</div><div class="tname">2º Grupo G</div></div><div class="vcol"><span class="gbadge">32-AVOS</span><div class="vcity">AT&T · Dallas</div></div></div>
+<div class="mc" data-ph="r32" data-t="32avos Miami"><div class="tcol"><div class="mtime">19:00</div><div class="mbrt">BRT</div><div class="mgrp">J86</div></div><div class="team th"><div class="tflag">⚽</div><div class="tname">1º Grupo J</div></div><div class="vs">VS</div><div class="team ta"><div class="tflag">⚽</div><div class="tname">2º Grupo H</div></div><div class="vcol"><span class="gbadge">32-AVOS</span><div class="vcity">Hard Rock · Miami</div></div></div>
+<div class="mc" data-ph="r32" data-t="32avos Kansas City"><div class="tcol"><div class="mtime">22:30</div><div class="mbrt">BRT</div><div class="mgrp">J87</div></div><div class="team th"><div class="tflag">⚽</div><div class="tname">1º Grupo K</div></div><div class="vs">VS</div><div class="team ta"><div class="tflag">⚽</div><div class="tname">Melhor 3º</div></div><div class="vcol"><span class="gbadge">32-AVOS</span><div class="vcity">Arrowhead · Kansas City</div></div></div>
+</div>
+
+<!-- ══ OITAVAS ══ -->
+<div class="phase-title" data-ph="oitavas">OITAVAS DE FINAL</div>
+
+<div class="dblock" data-ph="oitavas">
+<div class="dhdr"><span class="dlbl"><strong>Sáb 4/Jul</strong></span><div class="dline"></div></div>
+<div class="mc" data-ph="oitavas" data-t="oitavas Houston"><div class="tcol"><div class="mtime">14:00</div><div class="mbrt">BRT</div><div class="mgrp">J90</div></div><div class="team th"><div class="tflag">⚽</div><div class="tname">Venc. J73</div></div><div class="vs">VS</div><div class="team ta"><div class="tflag">⚽</div><div class="tname">Venc. J75</div></div><div class="vcol"><span class="gbadge">OITAVAS</span><div class="vcity">NRG · Houston</div></div></div>
+<div class="mc" data-ph="oitavas" data-t="oitavas Filadélfia"><div class="tcol"><div class="mtime">18:00</div><div class="mbrt">BRT</div><div class="mgrp">J89</div></div><div class="team th"><div class="tflag">⚽</div><div class="tname">Venc. J74</div></div><div class="vs">VS</div><div class="team ta"><div class="tflag">⚽</div><div class="tname">Venc. J77</div></div><div class="vcol"><span class="gbadge">OITAVAS</span><div class="vcity">Lincoln · Filadélfia</div></div></div>
+</div>
+<div class="dblock" data-ph="oitavas">
+<div class="dhdr"><span class="dlbl"><strong>Dom 5/Jul</strong></span><div class="dline"></div></div>
+<div class="mc br" data-ph="oitavas" data-t="Brasil oitavas Nova York MetLife" data-br="1"><div class="tcol"><div class="mtime">17:00</div><div class="mbrt">BRT</div><div class="mgrp">J91</div></div><div class="team th"><div class="tflag">🇧🇷</div><div class="tname">Venc. J76<span class="bstar">★</span></div></div><div class="vs">VS</div><div class="team ta"><div class="tflag">⚽</div><div class="tname">Venc. J78</div></div><div class="vcol"><span class="gbadge">OITAVAS</span><div class="vcity">MetLife · Nova York/NJ</div></div></div>
+<div class="mc" data-ph="oitavas" data-t="oitavas Cidade do México"><div class="tcol"><div class="mtime">21:00</div><div class="mbrt">BRT</div><div class="mgrp">J92</div></div><div class="team th"><div class="tflag">⚽</div><div class="tname">Venc. J79</div></div><div class="vs">VS</div><div class="team ta"><div class="tflag">⚽</div><div class="tname">Venc. J80</div></div><div class="vcol"><span class="gbadge">OITAVAS</span><div class="vcity">Azteca · Cidade do México</div></div></div>
+</div>
+<div class="dblock" data-ph="oitavas">
+<div class="dhdr"><span class="dlbl"><strong>Seg 6/Jul</strong></span><div class="dline"></div></div>
+<div class="mc" data-ph="oitavas" data-t="oitavas Dallas"><div class="tcol"><div class="mtime">16:00</div><div class="mbrt">BRT</div><div class="mgrp">J93</div></div><div class="team th"><div class="tflag">⚽</div><div class="tname">Venc. J83</div></div><div class="vs">VS</div><div class="team ta"><div class="tflag">⚽</div><div class="tname">Venc. J84</div></div><div class="vcol"><span class="gbadge">OITAVAS</span><div class="vcity">AT&T · Dallas</div></div></div>
+<div class="mc" data-ph="oitavas" data-t="oitavas Seattle"><div class="tcol"><div class="mtime">21:00</div><div class="mbrt">BRT</div><div class="mgrp">J94</div></div><div class="team th"><div class="tflag">⚽</div><div class="tname">Venc. J81</div></div><div class="vs">VS</div><div class="team ta"><div class="tflag">⚽</div><div class="tname">Venc. J82</div></div><div class="vcol"><span class="gbadge">OITAVAS</span><div class="vcity">Lumen · Seattle</div></div></div>
+</div>
+<div class="dblock" data-ph="oitavas">
+<div class="dhdr"><span class="dlbl"><strong>Ter 7/Jul</strong></span><div class="dline"></div></div>
+<div class="mc" data-ph="oitavas" data-t="oitavas Atlanta"><div class="tcol"><div class="mtime">13:00</div><div class="mbrt">BRT</div><div class="mgrp">J95</div></div><div class="team th"><div class="tflag">⚽</div><div class="tname">Venc. J86</div></div><div class="vs">VS</div><div class="team ta"><div class="tflag">⚽</div><div class="tname">Venc. J88</div></div><div class="vcol"><span class="gbadge">OITAVAS</span><div class="vcity">Mercedes-Benz · Atlanta</div></div></div>
+<div class="mc" data-ph="oitavas" data-t="oitavas Vancouver"><div class="tcol"><div class="mtime">17:00</div><div class="mbrt">BRT</div><div class="mgrp">J96</div></div><div class="team th"><div class="tflag">⚽</div><div class="tname">Venc. J85</div></div><div class="vs">VS</div><div class="team ta"><div class="tflag">⚽</div><div class="tname">Venc. J87</div></div><div class="vcol"><span class="gbadge">OITAVAS</span><div class="vcity">BC Place · Vancouver</div></div></div>
+</div>
+
+<!-- ══ QUARTAS + ══ -->
+<div class="phase-title" data-ph="quartas">QUARTAS · SEMIS · FINAL</div>
+
+<div class="dblock" data-ph="quartas">
+<div class="dhdr"><span class="dlbl"><strong>Qui 9/Jul</strong> — Quartas de Final</span><div class="dline"></div></div>
+<div class="mc" data-ph="quartas" data-t="quartas Boston"><div class="tcol"><div class="mtime">17:00</div><div class="mbrt">BRT</div><div class="mgrp">J97</div></div><div class="team th"><div class="tflag">⚽</div><div class="tname">Venc. J89</div></div><div class="vs">VS</div><div class="team ta"><div class="tflag">⚽</div><div class="tname">Venc. J90</div></div><div class="vcol"><span class="gbadge">QUARTAS</span><div class="vcity">Gillette · Boston</div></div></div>
+</div>
+<div class="dblock" data-ph="quartas">
+<div class="dhdr"><span class="dlbl"><strong>Sex 10/Jul</strong> — Quartas de Final</span><div class="dline"></div></div>
+<div class="mc" data-ph="quartas" data-t="quartas Los Angeles"><div class="tcol"><div class="mtime">16:00</div><div class="mbrt">BRT</div><div class="mgrp">J98</div></div><div class="team th"><div class="tflag">⚽</div><div class="tname">Venc. J93</div></div><div class="vs">VS</div><div class="team ta"><div class="tflag">⚽</div><div class="tname">Venc. J94</div></div><div class="vcol"><span class="gbadge">QUARTAS</span><div class="vcity">SoFi · Los Angeles</div></div></div>
+</div>
+<div class="dblock" data-ph="quartas">
+<div class="dhdr"><span class="dlbl"><strong>Sáb 11/Jul</strong> — Quartas de Final</span><div class="dline"></div></div>
+<div class="mc" data-ph="quartas" data-t="quartas Miami"><div class="tcol"><div class="mtime">18:00</div><div class="mbrt">BRT</div><div class="mgrp">J99</div></div><div class="team th"><div class="tflag">⚽</div><div class="tname">Venc. J91</div></div><div class="vs">VS</div><div class="team ta"><div class="tflag">⚽</div><div class="tname">Venc. J92</div></div><div class="vcol"><span class="gbadge">QUARTAS</span><div class="vcity">Hard Rock · Miami</div></div></div>
+<div class="mc" data-ph="quartas" data-t="quartas Kansas City"><div class="tcol"><div class="mtime">22:00</div><div class="mbrt">BRT</div><div class="mgrp">J100</div></div><div class="team th"><div class="tflag">⚽</div><div class="tname">Venc. J95</div></div><div class="vs">VS</div><div class="team ta"><div class="tflag">⚽</div><div class="tname">Venc. J96</div></div><div class="vcol"><span class="gbadge">QUARTAS</span><div class="vcity">Arrowhead · Kansas City</div></div></div>
+</div>
+<div class="dblock" data-ph="quartas">
+<div class="dhdr"><span class="dlbl"><strong>Ter 14/Jul</strong> — Semifinal</span><div class="dline"></div></div>
+<div class="mc" data-ph="quartas" data-t="semifinal Dallas"><div class="tcol"><div class="mtime">16:00</div><div class="mbrt">BRT</div><div class="mgrp">J101</div></div><div class="team th"><div class="tflag">⚽</div><div class="tname">Venc. J97</div></div><div class="vs">VS</div><div class="team ta"><div class="tflag">⚽</div><div class="tname">Venc. J98</div></div><div class="vcol"><span class="gbadge">SEMI</span><div class="vcity">AT&T · Dallas</div></div></div>
+</div>
+<div class="dblock" data-ph="quartas">
+<div class="dhdr"><span class="dlbl"><strong>Qua 15/Jul</strong> — Semifinal</span><div class="dline"></div></div>
+<div class="mc" data-ph="quartas" data-t="semifinal Atlanta"><div class="tcol"><div class="mtime">16:00</div><div class="mbrt">BRT</div><div class="mgrp">J102</div></div><div class="team th"><div class="tflag">⚽</div><div class="tname">Venc. J99</div></div><div class="vs">VS</div><div class="team ta"><div class="tflag">⚽</div><div class="tname">Venc. J100</div></div><div class="vcol"><span class="gbadge">SEMI</span><div class="vcity">Mercedes-Benz · Atlanta</div></div></div>
+</div>
+<div class="dblock" data-ph="quartas">
+<div class="dhdr"><span class="dlbl"><strong>Sáb 18/Jul</strong> — 3º Lugar</span><div class="dline"></div></div>
+<div class="mc" data-ph="quartas" data-t="terceiro lugar Miami"><div class="tcol"><div class="mtime">18:00</div><div class="mbrt">BRT</div><div class="mgrp">J103</div></div><div class="team th"><div class="tflag">🥉</div><div class="tname">Perd. J101</div></div><div class="vs">VS</div><div class="team ta"><div class="tflag">🥉</div><div class="tname">Perd. J102</div></div><div class="vcol"><span class="gbadge">3º LUGAR</span><div class="vcity">Hard Rock · Miami</div></div></div>
+</div>
+<div class="dblock" data-ph="quartas">
+<div class="dhdr"><span class="dlbl"><strong>Dom 19/Jul</strong> — 🏆 FINAL</span><div class="dline"></div></div>
+<div class="mc final-card" data-ph="quartas" data-t="final Nova York MetLife"><div class="tcol"><div class="mtime" style="color:var(--white)">16:00</div><div class="mbrt">BRT</div><div class="mgrp" style="color:var(--gold)">FINAL</div></div><div class="team th"><div class="tflag">🏆</div><div class="tname" style="color:var(--gold)">Campeão 1</div></div><div class="vs" style="color:var(--gold)">VS</div><div class="team ta"><div class="tflag">🏆</div><div class="tname" style="color:var(--gold)">Campeão 2</div></div><div class="vcol"><span class="gbadge" style="background:rgba(201,162,39,.3)">FINAL</span><div class="vcity" style="color:var(--gold)">MetLife · Nova York/NJ</div></div></div>
+</div>
+
+<div id="nores" class="nores"><div class="ico">🔍</div><div>Nenhum jogo para "<span id="st"></span>"</div></div>
+
+<div class="footnote">
+<strong>Grupos:</strong> A: México, África do Sul, Coreia do Sul, Rep. Tcheca · B: Canadá, Bósnia, Catar, Suíça · C: Brasil, Marrocos, Haiti, Escócia · D: EUA, Paraguai, Austrália, Turquia · E: Alemanha, Curaçao, Costa do Marfim, Equador · F: Holanda, Japão, Suécia, Tunísia · G: Bélgica, Egito, Irã, Nova Zelândia · H: Espanha, Cabo Verde, Arábia Saudita, Uruguai · I: França, Senegal, Iraque, Noruega · J: Argentina, Argélia, Áustria, Jordânia · K: Portugal, RD Congo, Uzbequistão, Colômbia · L: Inglaterra, Croácia, Panamá, Gana<br>
+<strong>Fonte:</strong> CNN Brasil / FIFA · Publicado 10/06/2026 · Todos os horários em BRT (Brasília, UTC−3)
+</div>
+</main>
+
+<button class="scrolltop" id="stbtn" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+const fbtns=document.querySelectorAll('.fbtn');
+const mcs=document.querySelectorAll('.mc');
+const dbs=document.querySelectorAll('.dblock');
+const phs=document.querySelectorAll('.phase-title');
+const si=document.getElementById('si');
+const nores=document.getElementById('nores');
+const stspan=document.getElementById('st');
+let cf='all',cs='';
+
+function run(){
+  let vis=0;
+  mcs.forEach(m=>{
+    const ph=m.dataset.ph;
+    const t=(m.dataset.t||'').toLowerCase();
+    const br=m.dataset.br==='1';
+    let show=true;
+    if(cf==='grupos'&&ph!=='grupos')show=false;
+    if(cf==='r32'&&ph!=='r32')show=false;
+    if(cf==='oitavas'&&ph!=='oitavas')show=false;
+    if(cf==='quartas'&&ph!=='quartas')show=false;
+    if(cf==='brazil'&&!br)show=false;
+    if(cs&&!t.includes(cs))show=false;
+    m.classList.toggle('hidden',!show);
+    if(show)vis++;
+  });
+  dbs.forEach(d=>{
+    const anyv=[...d.querySelectorAll('.mc')].some(c=>!c.classList.contains('hidden'));
+    d.style.display=anyv?'':'none';
+  });
+  phs.forEach(p=>{
+    const pp=p.dataset.ph;
+    const anyBlock=[...dbs].filter(d=>d.dataset.ph===pp).some(d=>d.style.display!=='none');
+    p.style.display=anyBlock?'':'none';
+  });
+  nores.style.display=vis===0?'block':'none';
+  stspan.textContent=cs;
+}
+
+fbtns.forEach(b=>b.addEventListener('click',()=>{
+  fbtns.forEach(x=>x.classList.remove('active'));
+  b.classList.add('active');
+  cf=b.dataset.f;run();
+}));
+si.addEventListener('input',e=>{cs=e.target.value.trim().toLowerCase();run();});
+window.addEventListener('scroll',()=>document.getElementById('stbtn').classList.toggle('show',scrollY>400));
+</script>
+</body>
+</html>
